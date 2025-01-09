@@ -28,6 +28,10 @@ public class UserServlet extends BaseServlet {
 				req.getRequestDispatcher("/WEB-INF/views/users/joinsuccess.jsp");
 			rd.forward(req, resp);
 		} else if ("loginform".equals(actionName)) {
+			String result = req.getParameter("result");
+			if ("fail".equals(result)) {
+				req.setAttribute("error_msg", "로그인에 실패했습니다.");
+			}
 			RequestDispatcher rd =
 				req.getRequestDispatcher("/WEB-INF/views/users/loginform.jsp");
 			rd.forward(req, resp);
@@ -62,6 +66,25 @@ public class UserServlet extends BaseServlet {
 			} else {
 				resp.getWriter().println("<h1>Error</h1>");
 			}	
+		} else if ("login".equals(actionName)) {
+			String email = req.getParameter("email");
+			String password = req.getParameter("password");
+			
+			UserDao dao = new UserDaoImpl(dbUser, dbPass);
+			UserVo vo = dao.getUserByIdAndPassword(email, password);
+			
+			System.out.println("Login User:"+ vo);
+			
+			if (vo != null) {	//	사용자 정보 찾음
+				resp.sendRedirect(req.getContextPath());
+			} else {
+				//	로그인 실패
+				resp.sendRedirect(
+					req.getContextPath() +
+						"/users?a=loginform&result=fail");
+			}
+		} else {
+			resp.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
 	}
 

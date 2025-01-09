@@ -31,7 +31,14 @@
 	<div id="wrapper">
       <div id="content">
       
-
+		<%
+		String errorMsg = (String)request.getAttribute("error_msg");
+		if (errorMsg != null) {
+			%>
+		<p style="color: darkred"><%= errorMsg %></p>
+			<%
+		}
+		%>
         <form id="login-form" 
 	        name="loginform" 
 	        method="POST" 
