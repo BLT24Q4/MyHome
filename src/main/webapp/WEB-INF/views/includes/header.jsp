@@ -2,18 +2,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="true" %>
-<%
-UserVo authUser = (UserVo)session.getAttribute("authUser");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" 
+	prefix="c" %>
 	<div id="header">
       <h1>My Homepage</h1>
       <ul>
-      	<% if (authUser == null) { %>
-      	<li><a href="<%= request.getContextPath() %>/users?a=joinform">회원가입</a><li>
-      	<li><a href="<%= request.getContextPath() %>/users?a=loginform">로그인</a></li>
-      	<% } else { %>
-      	<li><%= authUser.getName() %>님, 안녕하세요 ^^</li>
-      	<li><a href="<%= request.getContextPath() %>/users?a=logout">로그아웃</a>
-      	<% } %>
+      <c:choose>
+      	<c:when test="${empty authUser }">
+      		<li><a href="<%= request.getContextPath() %>/users?a=joinform">회원가입</a><li>
+      		<li><a href="<%= request.getContextPath() %>/users?a=loginform">로그인</a></li>
+      	</c:when>
+      	<c:otherwise>
+      		<li>${sessionScope.authUser.name }님, 안녕하세요 ^^</li>
+      		<li><a href="<%= request.getContextPath() %>/users?a=logout">로그아웃</a></li>
+      	</c:otherwise>
+      </c:choose>
       </ul>
     </div> <!-- /header -->
