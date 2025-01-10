@@ -9,12 +9,14 @@
       <ul>
       <c:choose>
       	<c:when test="${empty authUser }">
-      		<li><a href="<%= request.getContextPath() %>/users?a=joinform">회원가입</a><li>
-      		<li><a href="<%= request.getContextPath() %>/users?a=loginform">로그인</a></li>
+      		<li><a href="<c:url value="/users?a=joinform" />">회원가입</a><li>
+      		<li><a href="<c:url value="/users">
+      			<c:param name="a" value="loginform" />
+      		</c:url>">로그인</a></li>
       	</c:when>
       	<c:otherwise>
       		<li>${sessionScope.authUser.name }님, 안녕하세요 ^^</li>
-      		<li><a href="<%= request.getContextPath() %>/users?a=logout">로그아웃</a></li>
+      		<li><a href="<c:url value="/users?a=logout" />">로그아웃</a></li>
       	</c:otherwise>
       </c:choose>
       </ul>
