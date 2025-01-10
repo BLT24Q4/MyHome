@@ -9,7 +9,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
 
-@WebFilter({"/cookie/*"})
+@WebFilter("/*")
 public class EncodingFilter implements Filter {
 
 	@Override
@@ -19,7 +19,7 @@ public class EncodingFilter implements Filter {
 			throws IOException, ServletException {
 		req.setCharacterEncoding("UTF-8");
 		
-		resp.setContentType("text/html");
+//		resp.setContentType("text/html");
 		resp.setCharacterEncoding("UTF-8");
 		
 		chain.doFilter(req, resp);
